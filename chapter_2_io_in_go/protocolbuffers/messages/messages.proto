@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message SearchRequest {
+  string query = 1;
+  int32 page_number = 2;
+  int32 result_per_page = 3;
+}
+
+message SearchResponse {
+  repeated SearchResult results = 1;
+  google.protobuf.Timestamp modified = 2;
+}
+
+message SearchResult {
+  int64 id = 1;
+  string url = 2;
+  string description = 3;
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message Order {
+  int64 order_id = 1;
+  Customer customer = 2;
+  repeated Item items = 3;
+  google.protobuf.Timestamp order_date = 4;
+}
+
+message Customer {
+  int64 customer_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+}
+
+message Item {
+  int64 item_id = 1;
+  string url = 2;
+  string description = 3;
+  int64 cost = 4;
+}
