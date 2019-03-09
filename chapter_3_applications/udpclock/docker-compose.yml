@@ -1,0 +1,17 @@
+version: '2'
+services:
+  client1:
+    image: golang:latest
+    volumes:
+      - ./client:/go/src/github.com/a-h/gonp/udpclock/client
+    command: 'bash -c "cd /go/src/github.com/a-h/gonp/udpclock/client && go run main.go"'
+  client2:
+    image: golang:latest
+    volumes:
+      - ./client:/go/src/github.com/a-h/gonp/udpclock/client
+    command: 'bash -c "cd /go/src/github.com/a-h/gonp/udpclock/client && go run main.go"'
+  server:
+    image: golang:latest
+    volumes:
+      - ./server:/go/src/github.com/a-h/gonp/udpclock/server
+    command: 'bash -c "cd /go/src/github.com/a-h/gonp/udpclock/server && go run main.go"'
