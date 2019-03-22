@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/a-h/gonp/02_io_in_go/protocolbuffers/messages"
+	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_2_io_in_go/protocolbuffers/messages"
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes"
 )

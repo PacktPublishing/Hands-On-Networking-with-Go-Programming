@@ -8,7 +8,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/a-h/gonp/03_applications/tcpcopy/encryption"
+	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/tcpcopy/encryption"
 )
 
 func Start(fileName string, url string, key string) (err error) {

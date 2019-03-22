@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/a-h/gonp/03_applications/tcpcopy/send"
-
-	"github.com/a-h/gonp/03_applications/tcpcopy/receive"
+	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/tcpcopy/receive"
+	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/tcpcopy/send"
 )
 
 var modeFlag = flag.String("m", "recv", "Mode (send or recv)")

@@ -13,10 +13,11 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/a-h/gonp/03_applications/tcpcopy/encryption"
-	"github.com/a-h/gonp/03_applications/tcpcopy/wordlist"
+	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/tcpcopy/encryption"
+	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/tcpcopy/wordlist"
 )
 
+// Start the receive.
 func Start() (err error) {
 	words, err := wordlist.Random(4)
 	if err != nil {
@@ -55,6 +56,7 @@ func Start() (err error) {
 	return
 }
 
+// ErrUnexpectedHash is returned when an unexpected hash is encountered.
 var ErrUnexpectedHash = errors.New("unexpected hash, is the encryption key correct?")
 
 var separator = []byte("|")
