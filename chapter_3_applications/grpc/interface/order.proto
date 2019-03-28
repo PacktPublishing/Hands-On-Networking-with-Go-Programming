@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package order;
+
+service Orders {
+  rpc Get (GetRequest) returns (GetResponse) {}
+  rpc Add (AddRequest) returns (AddResponse) {}
+}
+
+// Define an order.
+message Order {
+  string id = 1;
+  Fields fields = 2;
+}
+
+message Fields {
+  string user_id = 1;
+  repeated Item items = 2;
+}
+
+message Item {
+  string id = 1;
+  string desc = 2;
+  int64 price = 3;
+}
+
+// Define the request / response messages.
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  Order order = 1;
+}
+
+message AddRequest {
+  Fields fields = 1;
+}
+
+message AddResponse {
+  string id = 1;
+}
