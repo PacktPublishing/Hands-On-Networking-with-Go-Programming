@@ -16,6 +16,7 @@ message Order {
 message Fields {
   string user_id = 1;
   repeated Item items = 2;
+  int64 companyId = 3;
 }
 
 message Item {

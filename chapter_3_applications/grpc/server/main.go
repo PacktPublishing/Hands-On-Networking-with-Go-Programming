@@ -51,6 +51,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println("gRPC Order server started (port 8888)")
 	err = s.Serve(l)
 	if err != nil {
 		fmt.Println(err)

@@ -1,0 +1,20 @@
+# .gqlgen.yml example
+#
+# Refer to https://gqlgen.com/config/
+# for detailed .gqlgen.yml documentation.
+
+schema:
+- schema.graphql
+exec:
+  filename: generated.go
+model:
+  filename: models_gen.go
+resolver:
+  filename: resolver.go
+  type: Resolver
+
+# In order to let gqlgen create relationships from the UserID property, we need to 
+# make our own type.
+models:
+  Order:
+    model: github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/graphql/schema.Order

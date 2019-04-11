@@ -1,0 +1,25 @@
+type Node {
+  id: ID!
+  parent: Node
+  children: [Node!]
+}
+
+type Query {
+  list(skip: Int, take: Int): [Node!]!
+  get(id: ID!): Node
+}
+
+input NewNode {
+  id: ID!
+  parent: ID
+}
+
+input NewEdge {
+  parent: ID!
+  child: ID!
+}
+
+type Mutation {
+  createNode(node: NewNode!): ID!
+  createEdge(edge: NewEdge!): ID!
+}

@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"fmt"
@@ -11,22 +11,22 @@ import (
 )
 
 type TestStore struct {
-	GetFn    func(id int) (company company.Company, ok bool, err error)
+	GetFn    func(id int64) (company company.Company, ok bool, err error)
 	ListFn   func() (companies []company.Company, err error)
-	UpsertFn func(c company.Company) (id int, err error)
-	DeleteFn func(id int) (err error)
+	UpsertFn func(c company.Company) (id int64, err error)
+	DeleteFn func(id int64) (err error)
 }
 
-func (ts TestStore) Get(id int) (company company.Company, ok bool, err error) {
+func (ts TestStore) Get(id int64) (company company.Company, ok bool, err error) {
 	return ts.GetFn(id)
 }
 func (ts TestStore) List() (companies []company.Company, err error) {
 	return ts.ListFn()
 }
-func (ts TestStore) Upsert(c company.Company) (id int, err error) {
+func (ts TestStore) Upsert(c company.Company) (id int64, err error) {
 	return ts.UpsertFn(c)
 }
-func (ts TestStore) Delete(id int) (err error) {
+func (ts TestStore) Delete(id int64) (err error) {
 	return ts.DeleteFn(id)
 }
 

@@ -1,0 +1,26 @@
+version: '2'
+services:
+  graphql:
+    image: golang:latest
+    volumes:
+      - ../:/go/src/github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications
+    command: 'bash -c "cd /go/src/github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/graphql && go get ./... && go run schema/server/main.go"'
+    ports:
+      - 8080:8080
+    links:
+      - companyrestserver
+      - orderservergrpc
+  companyrestserver:
+    image: golang:latest
+    volumes:
+      - ../:/go/src/github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications
+    command: 'bash -c "cd /go/src/github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/restexample && go get ./... && go run server/cmd/main.go"'
+    expose:
+      - 9021
+  orderservergrpc:
+    image: golang:latest
+    volumes:
+      - ../:/go/src/github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications
+    command: 'bash -c "cd /go/src/github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/grpc && go get ./... && go run server/main.go"'
+    expose:
+      - 8888

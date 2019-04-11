@@ -1,0 +1,18 @@
+# .gqlgen.yml example
+#
+# Refer to https://gqlgen.com/config/
+# for detailed .gqlgen.yml documentation.
+
+schema:
+- schema.graphql
+exec:
+  filename: generated.go
+model:
+  filename: models_gen.go
+resolver:
+  filename: resolver.go
+  type: Resolver
+
+models:
+  Node:
+    model: github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/graphdata/graphstore.Node

@@ -1,0 +1,61 @@
+# Basic types
+type Order {
+  id: ID!
+  items: [Item!]!
+  company: Company!
+}
+
+type Item {
+  id: ID!
+  desc: String!
+  price: Int!
+}
+
+type Company {
+  id: ID!
+  name: String!
+	vatNumber: String!
+	address: Address!
+}
+
+type Address {
+  address1: String!
+	address2: String!
+	address3: String!
+	address4: String!
+	postcode: String!
+	country: String!
+}
+
+# Define the queries.
+type Query {
+  orders(companyId: ID!, ids: [ID!]): [Order!]!
+  company(id: ID!): Company!
+  companies(ids: [ID!]!): [Company!]!
+}
+
+# Define input types for mutations.
+input NewCompanyAddress {
+  address1: String!
+	address2: String!
+	address3: String!
+	address4: String!
+	postcode: String!
+	country: String!
+}
+
+input NewCompany {
+  name: String!
+	vatNumber: String!
+	address: NewCompanyAddress!
+}
+
+input NewOrder {
+  items: [ID!]!
+}
+
+# Define mutations.
+type Mutation {
+  createCompany(company: NewCompany!): Company!
+  createOrder(companyId: ID!, order: NewOrder!): Order!
+}

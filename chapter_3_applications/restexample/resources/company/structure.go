@@ -2,11 +2,11 @@ package company
 
 // ID is returned when a company is posted.
 type ID struct {
-	ID int `json:"id"`
+	ID int64 `json:"id"`
 }
 
 type Company struct {
-	ID        int     `json:"id"`
+	ID        int64   `json:"id"`
 	Name      string  `json:"name"`
 	VATNumber string  `json:"vatNumber"`
 	Address   Address `json:"address"`

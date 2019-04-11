@@ -1,67 +1,16 @@
-package main
+package client
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"net/url"
+	"strconv"
 
 	"github.com/PacktPublishing/Hands-On-Networking-with-Go-Programming/chapter_3_applications/restexample/resources/company"
 )
-
-func main() {
-	cc := NewCompanyClient("http://localhost:9021")
-
-	fmt.Println("Listing companies")
-	companies, err := cc.List()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	for _, c := range companies {
-		fmt.Println(c)
-	}
-	fmt.Println()
-
-	fmt.Println("Creating new company")
-	c := company.Company{
-		Name: "Test Company 1",
-		Address: company.Address{
-			Address1: "Address 1",
-			Address2: "Address 2",
-			Address3: "Address 3",
-			Address4: "Address 4",
-			Postcode: "Postcode",
-		},
-		VATNumber: "12345",
-	}
-	id, err := cc.Post(c)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("Created ID: %d\n", id)
-	fmt.Println()
-
-	fmt.Println("Getting company")
-	c, err = cc.Get(id.ID)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println()
-
-	fmt.Println("Listing companies")
-	companies, err = cc.List()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	for _, c := range companies {
-		fmt.Println(c)
-	}
-	fmt.Println()
-}
 
 func NewCompanyClient(endpoint string) *CompanyClient {
 	return &CompanyClient{
@@ -89,7 +38,7 @@ func (cc *CompanyClient) List() (companies []company.Company, err error) {
 	return
 }
 
-func (cc *CompanyClient) Get(id int) (company company.Company, err error) {
+func (cc *CompanyClient) Get(id int64) (company company.Company, err error) {
 	resp, err := cc.client.Get(cc.endpoint + fmt.Sprintf("/company/%d", id))
 	if err != nil {
 		return
@@ -100,6 +49,24 @@ func (cc *CompanyClient) Get(id int) (company company.Company, err error) {
 	}
 	dec := json.NewDecoder(resp.Body)
 	err = dec.Decode(&company)
+	return
+}
+
+func (cc *CompanyClient) GetMany(ids []int64) (companies []company.Company, err error) {
+	var q url.Values
+	for _, id := range ids {
+		q.Add("ids", strconv.FormatInt(id, 10))
+	}
+	resp, err := cc.client.Get(cc.endpoint + fmt.Sprintf("/company?ids=%s", q.Encode()))
+	if err != nil {
+		return
+	}
+	err = errorFromResponse(resp)
+	if err != nil {
+		return
+	}
+	dec := json.NewDecoder(resp.Body)
+	err = dec.Decode(&companies)
 	return
 }
 
@@ -120,14 +87,20 @@ func (cc *CompanyClient) Post(c company.Company) (id company.ID, err error) {
 	if err != nil {
 		return
 	}
-	dec := json.NewDecoder(resp.Body)
-	err = dec.Decode(&id)
+	bdy, err := ioutil.ReadAll(resp.Body)
+	err = json.Unmarshal(bdy, &id)
+	if err != nil {
+		err = fmt.Errorf("failed to decode response body '%v': %v", string(bdy), err)
+	}
 	return
 }
 
 func errorFromResponse(r *http.Response) error {
 	if r.StatusCode == http.StatusNotFound {
 		return fmt.Errorf("URL %s returned a 404", r.Request.URL.String())
+	}
+	if r.StatusCode < 200 || r.StatusCode > 299 {
+		return fmt.Errorf("URL %s returned unexpected status %d", r.Request.URL.String(), r.StatusCode)
 	}
 	return nil
 }
